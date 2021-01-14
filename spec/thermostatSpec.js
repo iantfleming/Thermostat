@@ -14,6 +14,19 @@ describe('Thermostat', function() {
       thermostat.up();
       expect(thermostat.getCurrentTemperature()).toEqual(21);
     });
+    it('cannot increase above 32 when not in power saving mode', function() {
+      for (let i = 0; i < 13; i++) {
+        thermostat.up()
+      };
+      expect(thermostat.getCurrentTemperature()).toEqual(32);
+    });
+    it('cannot increase above 25 when in power saving mode', function() {
+      thermostat.turnOnPowerSaving()
+      for (let i = 0; i < 6; i++) {
+        thermostat.up()
+      };
+      expect(thermostat.getCurrentTemperature()).toEqual(25);
+    });
   });
 
   describe('down', function(){
@@ -30,5 +43,5 @@ describe('Thermostat', function() {
     });
   });
 
-  
+
 });
