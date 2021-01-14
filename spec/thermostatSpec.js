@@ -21,5 +21,14 @@ describe('Thermostat', function() {
       thermostat.down();
       expect(thermostat.getCurrentTemperature()).toEqual(19);
     });
+    it('throws an error when temperature reaches 10', function (){
+      for (let i = 0; i < 11; i++) {
+        thermostat.down();
+        // console.log(thermostat.getCurrentTemperature());
+      };
+      expect(thermostat.getCurrentTemperature()).toEqual(10);
+    });
   });
+
+  
 });

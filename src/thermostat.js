@@ -3,6 +3,7 @@
 class Thermostat {
   constructor() {
     this.temperature = 20;
+    this.MINIMUM_TEMPERATURE = 10;
   };
   getCurrentTemperature() {
     return this.temperature
@@ -11,6 +12,13 @@ class Thermostat {
     this.temperature += 1;
   };
   down() {
-    this.temperature -= 1;
+    if (this.isMinimumTemperature()) {
+      return;
+    } else {
+      this.temperature -= 1;
+    };
+  };
+  isMinimumTemperature() {
+    return this.getCurrentTemperature() === this.MINIMUM_TEMPERATURE;
   };
 };
