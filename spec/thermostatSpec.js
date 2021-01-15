@@ -8,6 +8,9 @@ describe('Thermostat', function() {
   it('starts at 20 degrees', function(){
     expect(thermostat.temperature).toEqual(20);
   });
+  it('starts with power saving mode turned on by default', function(){
+    expect(thermostat.getIsPowerSavingModeOn()).toBe(true);
+  });
 
   describe('up', function(){
     it('increases the temperature', function(){
@@ -27,6 +30,16 @@ describe('Thermostat', function() {
       };
       expect(thermostat.getCurrentTemperature()).toEqual(25);
     });
+
+    it('should not turn exceed 25 degrees if power save mode is on', () => {
+      thermostat.powerSavingMode = true
+      expect(function () { thermostat.up(6) }).toThrow(new TypeError("Temperature can't be higher than 25 if PSM is on"));
+    });
+
+    it('should not exceed 32 degrees if power save mode is off', () => {
+      thermostat.powerSavingMode = false
+      expect(function () { thermostat.up(13) }).toThrow(new TypeError("Temperature can't be higher than 32 if PSM is off"));
+    });
   });
 
   describe('down', function(){
@@ -42,6 +55,5 @@ describe('Thermostat', function() {
       expect(thermostat.getCurrentTemperature()).toEqual(10);
     });
   });
-
 
 });
