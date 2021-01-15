@@ -14,21 +14,8 @@ describe('Thermostat', function() {
 
   describe('up', function(){
     it('increases the temperature', function(){
-      thermostat.up();
-      expect(thermostat.getCurrentTemperature()).toEqual(21);
-    });
-    it('cannot increase above 32 when not in power saving mode', function() {
-      for (let i = 0; i < 13; i++) {
-        thermostat.up()
-      };
-      expect(thermostat.getCurrentTemperature()).toEqual(32);
-    });
-    it('cannot increase above 25 when in power saving mode', function() {
-      thermostat.turnOnPowerSaving()
-      for (let i = 0; i < 6; i++) {
-        thermostat.up()
-      };
-      expect(thermostat.getCurrentTemperature()).toEqual(25);
+      thermostat.up(1);
+      expect(thermostat.temperature).toEqual(21);
     });
 
     it('should not turn exceed 25 degrees if power save mode is on', () => {
@@ -56,4 +43,28 @@ describe('Thermostat', function() {
     });
   });
 
+  describe('reset', () => {
+    it('should reset the temperature back to 20 degrees', () => {
+      thermostat.reset()
+      expect(thermostat.temperature).toEqual(20);
+    })
+  });
+  
+  describe('energyUsage', () => {
+    it('should return Low if temperature < 18', () => {
+      thermostat.temperature = 17
+      expect(thermostat.energyUsage()).toEqual("Low");
+    });
+
+    it('should return Medium if temperature > 18 but <= 25', () => {
+      thermostat.temperature = 23
+      expect(thermostat.energyUsage()).toEqual("Medium");
+    });
+
+    it('should return High if temperature > 25', () => {
+      thermostat.togglePowerMode()
+      thermostat.temperature = 28
+      expect(thermostat.energyUsage()).toEqual("High");
+    });
+  })
 });
