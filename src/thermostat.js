@@ -19,23 +19,31 @@ class Thermostat {
     return this.powerSavingMode === true;
   };
 
-  up(amount) {
-    let max_temp_error = "Temperature can't be higher than 32 if PSM is off"
-    let power_save_max_temp_error = "Temperature can't be higher than 25 if PSM is on"
-    if (this.powerSavingMode === true) {
-      if (this.temperature + amount > this.MAXIMUM_TEMPERATURE_PSM_ON) {
-        throw new TypeError(power_save_max_temp_error)
-      } else {
-        this.temperature += amount
-      }
+  // up() {
+  //   let max_temp_error = "Temperature can't be higher than 32 if PSM is off"
+  //   let power_save_max_temp_error = "Temperature can't be higher than 25 if PSM is on"
+  //   if (this.powerSavingMode === true) {
+  //     if (this.temperature + 1 > this.MAXIMUM_TEMPERATURE_PSM_ON) {
+  //       throw new TypeError(power_save_max_temp_error)
+  //     } else {
+  //       this.temperature += 1
+  //     }
+  //   } else {
+  //     if (this.temperature + 1 > this.MAXIMUM_TEMPERATURE_PSM_OFF) {
+  //       throw new TypeError(max_temp_error)
+  //     } else {
+  //       this.temperature += 1
+  //     }
+  //   }
+  //
+
+  up() {
+    if (this.isMaximumTemperature()) {
+      return
     } else {
-      if (this.temperature + amount > this.MAXIMUM_TEMPERATURE_PSM_OFF) {
-        throw new TypeError(max_temp_error)
-      } else {
-        this.temperature += amount
-      }
-    }
-  }
+      this.temperature++
+    };
+  };
 
   togglePowerMode() {
     if (this.powerSavingMode === true) {
@@ -64,6 +72,11 @@ class Thermostat {
   turnOnPowerSaving() {
     // this.isPowerSavingOn = true;
     this.currentMaximumTemperature = this.MAXIMUM_TEMPERATURE_PSM_ON;
+  };
+
+  turnOffPowerSaving() {
+    // this.isPowerSavingOn = true;
+    this.currentMaximumTemperature = this.MAXIMUM_TEMPERATURE_PSM_OFF;
   };
 
   reset() {
